@@ -1,91 +1,366 @@
-📦 Inventory Management System (IMS) - Backend
-A backend REST API for managing inventory in a small business. Built using Node.js, Express, and MongoDB Atlas, with JWT authentication and cookie-based login.
+# Inventory Management System Backend
 
-⚙️ Features
-✅ User registration and login (JWT, stored in cookies)
-✅ Add products
-✅ Update product quantity
-✅ Get all products with pagination
-✅ Authentication middleware
-✅ Environment-based config
-✅ Python test script (as provided in assignment)
-✅ OpenAPI (Swagger) documentation at /api-docs
-✅ Docker support for containerized deployment
-⚙️ Tech Stack
-Backend: Node.js, Express
-Database: MongoDB Atlas
-Auth: JWT + Cookies
-Docs: Swagger (OpenAPI YAML)
-Testing: Postman, Python test script
-Containerization: Docker
-📁 Project Structure
-ims-backend/
-├── controllers/                   # Logic for auth & product
-├── middlewares/                   # JWT auth middleware
-├── models/                        # Mongoose schemas
-├── index.js                       # Main app with all routes and Server entry point
-├── Dockerfile                     # Docker configuration
-├── openapi.yaml                   # Swagger API documentation
-├── .env                           # Environment variables
-├── test_api.py                    # Python test script (assignment)
-├── ims_postman_collection.json    # Postman collection
-├── README.md
-🛠️ Setup Instructions
-🔹 Prerequisites
-Node.js v14+
-MongoDB Atlas account
-Python 3.6+ (for testing script)
-requests Python module
-Docker (optional)
-🔹 1. Clone the Repo
-git clone https://github.com/ashutosh-3474/Inventory-Management.git
-cd Inventory-Management/
-🔹 2. Install Dependencies
+## Overview
+
+The Inventory Management System (IMS) Backend is a RESTful API built using Node.js, Express.js, MongoDB, and Mongoose. It provides secure inventory management features including user authentication, product management, pagination, searching, sorting, validation, logging, API documentation, and Docker support.
+
+## Features
+
+### Authentication & Authorization
+
+* User Registration
+* User Login
+* JWT-based Authentication
+* Protected Product Routes
+
+### Product Management
+
+* Create Product
+* Get All Products
+* Update Product Quantity
+* Delete Product
+
+### Advanced Features
+
+* Pagination
+* Search Products by Name
+* Sort Products by Price or Quantity
+* Input Validation using Express Validator
+* Global Error Handling
+* Request Logging using Morgan
+
+### Documentation & Deployment
+
+* Swagger API Documentation
+* Docker Support
+* Postman Collection Included
+
+---
+
+## Tech Stack
+
+* Node.js
+* Express.js
+* MongoDB Atlas / MongoDB
+* Mongoose
+* JWT (JSON Web Tokens)
+* Express Validator
+* Morgan
+* Swagger UI
+* Docker
+
+---
+
+## Project Structure
+
+```text
+inventory-management/
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── authController.js
+│   └── procontroller.js
+├── middlewares/
+│   ├── authMiddleware.js
+│   ├── validators.js
+│   └── errorHandler.js
+├── models/
+│   ├── User.js
+│   └── Product.js
+├── routes/
+│   ├── authRoutes.js
+│   └── productRoutes.js
+├── Dockerfile
+├── openapi.yaml
+├── ims_postman_collection.json
+├── test_api.py
+├── index.js
+├── package.json
+└── README.md
+```
+
+---
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/shreyalakhmani-06/Inventory-Management.git
+cd Inventory-Management
+```
+
+### Install Dependencies
+
+```bash
 npm install
-🔹 3. Run the Server
-npm run dev     # Development mode using nodemon
-# OR
-npm start       # Production mode
-Server will run at: http://localhost:8080
+```
 
-🐳 Docker Setup (Optional)
-🔹 1. Build Docker Image
-docker build -t ims-backend .
-🔹 2. Run the Container
-docker run -e PORT=8080 -p 8080:8080 ims-backend
-🔐 API Endpoints
-All product routes require login (auth cookie).
+### Configure Environment Variables
 
-🔹 Auth
-POST /register — Create user
-POST /login — Login and set JWT cookie
-POST /logout — Clear the auth cookie
-🔹 Products (Require Auth)
-POST /products — Add a new product
-PUT /products/:id/quantity — Update product quantity
-GET /products — Get paginated product list
-🧪 Testing
-🔹 1. Install Python & Requests
-pip install requests
-🔹 2. Run Test Script
-Make sure your server is running at http://localhost:8080
+Create a `.env` file in the project root.
 
-python test_api.py
-📤 Postman Collection
-Import the included file ims_postman_collection.json into Postman to test all endpoints.
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 
-📘 API Documentation (Swagger UI)
-Swagger docs available at:
+### Start Server
 
+```bash
+npm start
+```
+
+Server will run on:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## API Endpoints
+
+### Authentication
+
+#### Register User
+
+```http
+POST /register
+```
+
+Request Body:
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+---
+
+#### Login User
+
+```http
+POST /login
+```
+
+Request Body:
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+Response:
+
+```json
+{
+  "token": "jwt_token"
+}
+```
+
+---
+
+### Product APIs
+
+All Product APIs require a valid JWT token.
+
+Authorization Header:
+
+```text
+Authorization: Bearer <token>
+```
+
+---
+
+### Create Product
+
+```http
+POST /products
+```
+
+Request Body:
+
+```json
+{
+  "name": "Laptop",
+  "price": 50000,
+  "quantity": 10
+}
+```
+
+---
+
+### Get Products
+
+```http
+GET /products
+```
+
+---
+
+### Pagination
+
+```http
+GET /products?page=1&limit=5
+```
+
+---
+
+### Search Products
+
+```http
+GET /products?search=laptop
+```
+
+---
+
+### Sort Products
+
+Ascending:
+
+```http
+GET /products?sort=price
+```
+
+Descending:
+
+```http
+GET /products?sort=-price
+```
+
+Sort by Quantity:
+
+```http
+GET /products?sort=-quantity
+```
+
+---
+
+### Update Product Quantity
+
+```http
+PUT /products/:id
+```
+
+Request Body:
+
+```json
+{
+  "quantity": 20
+}
+```
+
+---
+
+### Delete Product
+
+```http
+DELETE /products/:id
+```
+
+---
+
+## Swagger Documentation
+
+After running the server:
+
+```text
 http://localhost:8080/api-docs
-The documentation is based on the openapi.yaml file.
+```
 
-🧹 Notes
-JWT is stored in cookies (HttpOnly, Secure)
-Auth required for all /products/* routes
-Token can also be passed via Authorization: Bearer <token> (optional)
-AI tools were used to assist in generating the syntax and boilerplate code
+Swagger UI provides interactive API testing and documentation.
 
-👨‍💻 Author
+---
+
+## Docker Usage
+
+### Build Docker Image
+
+```bash
+docker build -t inventory-management .
+```
+
+### Run Docker Container
+
+```bash
+docker run -p 8080:8080 inventory-management
+```
+
+---
+
+## Testing
+
+### Postman
+
+Import:
+
+```text
+ims_postman_collection.json
+```
+
+into Postman and test all APIs.
+
+### Python Test Script
+
+```bash
+python test_api.py
+```
+
+---
+
+## Error Handling
+
+The project includes a centralized global error handler that returns meaningful API error responses.
+
+Example:
+
+```json
+{
+  "success": false,
+  "message": "Internal Server Error"
+}
+```
+
+---
+
+## Logging
+
+Morgan middleware is used for request logging.
+
+Example:
+
+```text
+GET /products 200 12.5 ms
+POST /login 200 150.3 ms
+```
+
+---
+
+## Future Improvements
+
+* Password Hashing using Bcrypt
+* Role-Based Access Control
+* Product Categories
+* Inventory Analytics Dashboard
+* Unit & Integration Testing
+* CI/CD Pipeline
+
+---
+
+## Author
+
 Shreya Lakhmani
-shreyalakhmani06@gmail.com
+
+GitHub:
+https://github.com/shreyalakhmani-06
+
+---
+
+## License
+
+This project is developed for learning and educational purposes.
