@@ -4,7 +4,7 @@ const connectDB = async () => {
 
     try {
 
-        await mongoose.connect('mongodb://127.0.0.1:27017/inventoryDB');
+        await mongoose.connect('mongodb+srv://shreyalakhmani06:Einstein%4006@cluster0.ub8zm9i.mongodb.net/?appName=Cluster0');
 
         console.log('MongoDB Connected Successfully');
 
