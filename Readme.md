@@ -359,6 +359,9 @@ Shreya Lakhmani
 GitHub:
 https://github.com/shreyalakhmani-06
 
+Project Link:
+https://inventory-management-14u7.onrender.com/api-docs/
+
 ---
 
 ## License
